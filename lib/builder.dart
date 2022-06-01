@@ -100,7 +100,7 @@ class Builder {
     await File("$_libFolder/config.dart").create();
     await utils.runCommand("mkdir", [
       "-p",
-      "$_libFolder/config/src/utils.logger",
+      "$_libFolder/config/src/logger",
       "$_libFolder/config/src/injection",
       "$_libFolder/config/src/io",
     ]).then((value) {
