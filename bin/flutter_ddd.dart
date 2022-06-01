@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:console/console.dart';
 import 'package:flutter_ddd/args_parser.dart';
 import 'package:flutter_ddd/builder.dart';
 

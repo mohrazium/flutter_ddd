@@ -2,19 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:console/console.dart';
-import 'package:intl/intl.dart';
 
-var progress = ProgressBar();
-var i = 0;
-var lg = 1;
-bool completed = false;
+var _progress = ProgressBar();
+var _i = 0;
+var _lg = 1;
+bool _completed = false;
 
 class Utils {
   Utils() {
     Console.initialized;
-    progress.update(i);
+    _progress.update(_i);
     Timer.periodic(const Duration(milliseconds: 100), (t) {
-      if (completed) {
+      if (_completed) {
         t.cancel();
       }
     });
@@ -41,20 +40,21 @@ class Utils {
     }
   }
 
-  void log(String msg) async {
-    if (!completed) {
+  void log(String msg, [bool isMarked = false]) async {
+    if (!_completed) {
       Console.eraseLine(1);
     }
-    stdout.writeln('\n\x1b[38;5;39mFLUTTER-DDD => $msg\x1b[0m');
-    progress.update(i);
-    if (lg == 34) {
-      completed = true;
+    var marked = isMarked ? "[${Icon.HEAVY_CHECKMARK}]" : "";
+    stdout.writeln('FLUTTER-DDD => $msg $marked');
+    _progress.update(_i);
+    if (_lg == 34) {
+      _completed = true;
     } else {
-      lg++;
-      if (i / 3 == 2) {
-        i = i + 4;
+      _lg++;
+      if (_i / 3 == 2) {
+        _i = _i + 4;
       } else {
-        i = i + 3;
+        _i = _i + 3;
       }
     }
   }

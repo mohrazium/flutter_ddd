@@ -21,9 +21,9 @@ class Builder {
 
   Future<void> _createBase() async {
     _libFolder = "$projectDir/$projectName/lib/src";
-    await utils.runCommand("mkdir", ["-p", _libFolder]).then((value) => utils.log("lib folder created."));
+    await utils.runCommand("mkdir", ["-p", _libFolder]).then((value) => utils.log("lib folder created.",true));
     await utils.runCommand("mkdir", ["-p", "$projectDir/$projectName/bin"])
-        .then(((value) => utils.log("FLUTTER-DDD => bin folder created.")));
+        .then(((value) => utils.log("bin folder created.", true)));
     await utils.runCommand("touch", ["$projectDir/$projectName/bin/main.dart"]);
     await utils.runCommand("touch", ["$projectDir/$projectName/lib/$projectName.dart"]);
     await File("$projectDir/$projectName/bin/main.dart").writeAsString('''
@@ -33,7 +33,7 @@ class Builder {
     //   Application().run();
     // }
        ''').then((value) async {
-      utils.log("lib and bin folder and main.dart file created.");
+      utils.log("lib and bin folder and main.dart file created.",true);
       utils.log("Creating sub-folders ...");
       await _createApp();
       await _createCommon();
@@ -63,7 +63,7 @@ class Builder {
       await utils.runCommand("touch", ["$_libFolder/app/src/entry_point.dart"]);
       await utils.runCommand("touch", ["$_libFolder/app/src/application.dart"]);
     }).then((value) {
-      utils.log("$projectName app entry lib created.");
+      utils.log("$projectName app entry lib created.", true);
     });
   }
 
@@ -92,7 +92,7 @@ class Builder {
       Future<bool> delete(M model);
     }
     ''');
-      utils.log("Common folder created.");
+      utils.log("Common folder created.", true);
     });
   }
 
@@ -104,42 +104,42 @@ class Builder {
       "$_libFolder/config/src/injection",
       "$_libFolder/config/src/io",
     ]).then((value) {
-      utils.log("config folder created.");
+      utils.log("config folder created.", true);
     });
   }
 
   Future<void> _createConstants() async {
     await utils.runCommand("mkdir", ["-p", "$_libFolder/constants/src"]);
     await File("$_libFolder/constants.dart").create().then((value) {
-      utils.log("constants folder created.");
+      utils.log("constants folder created.", true);
     });
   }
 
   Future<void> _createExceptions() async {
     await utils.runCommand("mkdir", ["-p", "$_libFolder/exceptions/src"]);
     await File("$_libFolder/exceptions.dart").create().then((value) {
-      utils.log("Exceptions folder created.");
+      utils.log("Exceptions folder created.", true);
     });
   }
 
   Future<void> _createSettings() async {
     await utils.runCommand("mkdir", ["-p", "$_libFolder/settings/src"]);
     await File("$_libFolder/settings.dart").create().then((value) {
-      utils.log("Settings folder created.");
+      utils.log("Settings folder created.", true);
     });
   }
 
   Future<void> _createLocalization() async {
     await utils.runCommand("mkdir", ["-p", "$_libFolder/localization/src"]);
     await File("$_libFolder/localization.dart").create().then((value) {
-      utils.log("Localization folder created.");
+      utils.log("Localization folder created.", true);
     });
   }
 
   Future<void> _createRouter() async {
     await utils.runCommand("mkdir", ["-p", "$_libFolder/router/src"]);
     await File("$_libFolder/router.dart").create().then((value) {
-      utils.log("Router folder created.");
+      utils.log("Router folder created.", true);
     });
   }
 
@@ -151,7 +151,7 @@ class Builder {
       "$_libFolder/utils/src/mapper",
       "$_libFolder/utils/src/mixins",
     ]).then((value) {
-      utils.log("Utils folder created.");
+      utils.log("Utils folder created.", true);
     });
   }
 
@@ -160,7 +160,7 @@ class Builder {
     await File("$_libFolder/features.dart").create();
 
     await utils.runCommand("mkdir", ["-p", featuresPath]).then((value) {
-      utils.log("Features folder created.");
+      utils.log("Features folder created.", true);
       for (String feature in features) {
         _createFeature(featuresPath, feature);
       }
@@ -172,11 +172,11 @@ class Builder {
     await utils.runCommand("mkdir", ["-p", fPath]);
     await File("$featuresPath/$featureName.dart").create().then((value) async {
       utils.log("Creating $featureName feature...");
-      await _createApplication(fPath).then((value) => utils.log("Application folder of $featureName was created."));
-      await _createData(fPath).then((value) => utils.log("Data folder of $featureName was created."));
-      await _createDomain(fPath).then((value) => utils.log("Domain folder of $featureName was created."));
-      await _createPresentation(fPath).then((value) => utils.log("Presentation folder of $featureName was created."));
-      utils.log("$featureName feature creation completed.");
+      await _createApplication(fPath).then((value) => utils.log("Application folder of $featureName was created.", true));
+      await _createData(fPath).then((value) => utils.log("Data folder of $featureName was created.", true));
+      await _createDomain(fPath).then((value) => utils.log("Domain folder of $featureName was created.", true));
+      await _createPresentation(fPath).then((value) => utils.log("Presentation folder of $featureName was created.", true));
+      utils.log("$featureName feature creation completed.", true);
     });
   }
 
