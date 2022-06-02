@@ -41,8 +41,20 @@ class Args extends SmartArg {
           you should separated feature names with ,
           ''',
     short: 'f',
+    isRequired: false,
   )
-  List<String> features = ['auth', 'users', 'dashboard'];
+  String features = '';
+  @StringArgument(
+    help: '''
+          List of features you wish to create in this project...
+          default features is : this is a clean list of features.
+          you should separated feature names with ,
+          ''',
+    short: 'c',
+    isRequired: false,
+  )
+  String cleanFeatures = '';
+
   @HelpArgument()
   bool help = false;
 }

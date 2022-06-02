@@ -5,9 +5,9 @@ import 'package:flutter_ddd/builder.dart';
 
 import 'flutter_ddd.reflectable.dart';
 
-void main(List<String> arguments) {
-
+Future<void> main(List<String> arguments) async {
   String? org;
+  List<String> features = ['auth', 'users', 'dashboard'];
   initializeReflectable();
 
   var args = Args()..parse(arguments);
@@ -20,12 +20,18 @@ void main(List<String> arguments) {
   if (args.organization == "com.mohratech.mohrazium.") {
     org = args.organization + args.projectName;
   }
+  if (args.cleanFeatures.isNotEmpty) {
+    features.clear();
+    features = args.cleanFeatures.split(',');
+  } else {
+    features.addAll(args.features.split(','));
+  }
 
   Builder builder = Builder(
       projectName: args.projectName,
       organization: org ?? args.organization,
-      features: args.features,
+      features: features,
       projectDir: args.projectDir);
 
-  builder.build();
+  await builder.build().then((value) => exit(0));
 }

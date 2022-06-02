@@ -15,8 +15,8 @@ class Builder {
     required this.projectDir,
   });
 
-  void build() {
-    _createBase();
+  Future<void> build() async {
+   await _createBase();
   }
 
   Future<void> _createBase() async {
@@ -44,16 +44,17 @@ class Builder {
       await _createLocalization();
       await _createRouter();
       await _createUtils();
-      await _createFeatures();
-      utils.log("Running 'flutter create'...");
-      await utils.runCommand("flutter", ["create", projectName, "--org", organization]).then((v) async {
-        utils.log("All done!");
-        utils.log("Opening VS Code ...");
+      await _createFeatures().then((v) async {
+        utils.log("Running 'flutter create'...");
+        await utils.runCommand("flutter", ["create", projectName, "--org", organization]).then((v) async {
+          utils.log("All done!", false, true);
+          utils.log("Opening VS Code ...");
 
-        await utils.runCommand("code", [projectName]);
+          await utils.runCommand("code", [projectName]);
+        });
+        await utils.runCommand("rm", ["$projectDir/$projectName/lib/main.dart"]);
+        await utils.runCommand("rm", ["$projectDir/$projectName/test/widget_test.dart"]);
       });
-      await utils.runCommand("rm", ["$projectDir/$projectName/lib/main.dart"]);
-      await utils.runCommand("rm", ["$projectDir/$projectName/test/widget_test.dart"]);
     });
   }
 
@@ -158,10 +159,10 @@ class Builder {
   Future<void> _createFeatures() async {
     String featuresPath = "$_libFolder/features";
 
-    await utils.runCommand("mkdir", ["-p", featuresPath]).then((value) {
+    await utils.runCommand("mkdir", ["-p", featuresPath]).then((value) async {
       utils.log("Features folder created.", true);
       for (String feature in features) {
-        _createFeature(featuresPath, feature);
+        await _createFeature(featuresPath, feature);
       }
     });
     await File("$_libFolder/features/features.dart").create();
@@ -180,11 +181,6 @@ class Builder {
           .then((value) => utils.log("Presentation folder of $featureName was created.", true));
       utils.log("$featureName feature creation completed.", true);
     });
-  }
-
-  @override
-  String toString() {
-    return 'Builder(projectName: $projectName, organization: $organization, features: $features, projectDir: $projectDir)';
   }
 
   Future<void> _createApplication(String featurePath) async {
@@ -225,5 +221,11 @@ class Builder {
       "$featurePath/presentation/bindings",
     ]);
     await File("$featurePath/presentation.dart").create();
+  }
+
+  @override
+  String toString() {
+    super.toString();
+    return "Builder(projectName: $projectName, organization: $organization, features: $features, projectDir: $projectDir)";
   }
 }
