@@ -24,7 +24,7 @@ Future<void> main(List<String> arguments) async {
     features.clear();
     features = args.cleanFeatures.split(',');
   } else {
-    features.addAll(args.features.split(','));
+    if (args.features.isNotEmpty) features.addAll(args.features.split(','));
   }
 
   Builder builder = Builder(
